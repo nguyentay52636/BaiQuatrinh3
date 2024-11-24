@@ -14,51 +14,49 @@
 
 
 
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="60dp">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
+                android:title="Daily Selfie"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="?attr/colorPrimary"
                 android:elevation="4dp">
 
-                <!--                <TextView-->
-                <!--                    android:id="@+id/textView"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="match_parent"-->
-                <!--                    android:layout_gravity="center"-->
-                <!--                    android:text="Daily Selfie"-->
-                <!--                    android:textAlignment="center"-->
-                <!--                    android:textSize="34sp"-->
-                <!--                    android:textStyle="bold"-->
-                <!--                    android:textColor="#FFFFFF" />-->
+
             </androidx.appcompat.widget.Toolbar>
 
         </FrameLayout>
 
-
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="60dp">
 
-            <LinearLayout
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="60dp"
+            >
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="70dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/blue"
+            >
+
+            <include
+                android:id="@+id/list_images"
+                layout="@layout/list_images"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="8dp" />
-            </LinearLayout>
-        </ScrollView>
-
-
+                android:layout_height="match_parent" />
+        </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabCamera"
