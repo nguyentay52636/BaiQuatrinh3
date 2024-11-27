@@ -39,6 +39,7 @@
             android:exported="true"
             android:grantUriPermissions="true">
         </provider>
+        <activity android:name=".ImageDetailActivity" />
 
     </application>
 

@@ -1,18 +1,22 @@
 package com.example.baitapquatrinh3.Adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.baitapquatrinh3.ImageDetailActivity;
 import com.example.baitapquatrinh3.R;
 import com.example.baitapquatrinh3.models.Image;
+import com.github.chrisbanes.photoview.PhotoView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -56,19 +60,23 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         Image image = images.get(position);
 
         // Sử dụng Glide để tải ảnh
-        Glide.with(holder.imageView.getContext())
+        Glide.with(holder.photoView.getContext())
                 .load(new File(image.getFilePath()))
-                .into(holder.imageView);
+                .into(holder.photoView);
 
         // Hiển thị ngày giờ định dạng
         holder.textViewDate.setText(image.getFormattedDate());
         holder.textViewId.setText("ID: " + image.getId());
 
-//        holder.checkBox.setChecked(selectedItems.get(position));
-//        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-//            selectedItems.set(position, isChecked);
-//        });
-        holder.itemView.setOnClickListener(v -> listener.onItemClicked(image));
+
+        holder.itemView.setOnClickListener(v->  {
+            Toast.makeText(holder.itemView.getContext(), "Bạn vừa chọn ảnh ID số: " + image.getId(), Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(holder.itemView.getContext(), ImageDetailActivity.class);
+            intent.putExtra(ImageDetailActivity.EXTRA_IMAGE_PATH,image.getFilePath());
+            holder.itemView.getContext().startActivity(intent);
+
+        });
 //
     }
 
@@ -79,7 +87,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     // ViewHolder để chứa các thành phần giao diện của mỗi item
     public static class ImageViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
+        PhotoView photoView;
         TextView textViewDate;
         CheckBox checkBox;
         TextView textViewId  ;
@@ -87,7 +95,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             super(itemView);
             textViewId = itemView.findViewById(R.id.textViewId);
             checkBox = itemView.findViewById(R.id.checkBox);
-            imageView = itemView.findViewById(R.id.imageView);
+            photoView = itemView.findViewById(R.id.photo_view);
             textViewDate = itemView.findViewById(R.id.textViewDate);
         }
     }

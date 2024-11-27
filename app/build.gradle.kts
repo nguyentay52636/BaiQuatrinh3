@@ -35,6 +35,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.3.1")
     implementation ("androidx.core:core:1.7.0")
        implementation ("com.github.bumptech.glide:glide:4.15.1")
+    implementation ("com.github.chrisbanes:PhotoView:2.3.0")
     annotationProcessor  ("com.github.bumptech.glide:compiler:4.15.1")
     implementation(libs.appcompat)
     implementation(libs.material)
