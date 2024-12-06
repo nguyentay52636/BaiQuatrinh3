@@ -7,7 +7,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-feature android:name="android.hardware.camera" android:required="true" />
     <uses-permission android:name="android.permission.SET_ALARM" />
-    <!-- Tự động yêu cầu quyền lưu trữ trên Android 10 trở lên -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         android:required="false" tools:ignore="ScopedStorage" />
 
@@ -32,12 +33,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ReminderActivity"
+            android:name=".ChildrenActivity.ReminderActivity"
             android:exported="true">
 
         </activity>
         <activity
-            android:name=".ReminderListActivity"
+            android:name=".ChildrenActivity.ReminderListActivity"
             android:exported="true">
         </activity>
         <receiver
@@ -51,7 +52,7 @@
             android:exported="true"
             android:grantUriPermissions="true">
         </provider>
-        <activity android:name=".ImageDetailActivity" />
+        <activity android:name=".ChildrenActivity.ImageDetailActivity" />
 
 
 

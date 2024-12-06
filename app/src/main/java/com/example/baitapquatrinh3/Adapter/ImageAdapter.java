@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.baitapquatrinh3.ImageDetailActivity;
+import com.example.baitapquatrinh3.ChildrenActivity.ImageDetailActivity;
 import com.example.baitapquatrinh3.R;
 import com.example.baitapquatrinh3.models.Image;
 import com.github.chrisbanes.photoview.PhotoView;
@@ -22,9 +21,7 @@ import com.github.chrisbanes.photoview.PhotoView;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
 
@@ -38,15 +35,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     // Constructor cho Adapter
     public ImageAdapter(List<Image> images, OnItemClickListener listener) {
-        this.images = images;
+        this.images = images != null ? images : new ArrayList<>();
         this.listener = listener;
-        if (images != null && !images.isEmpty()) {
-            selectedItems = new ArrayList<>(Collections.nCopies(images.size(), false));
-        } else {
-            selectedItems = new ArrayList<>(); // Nếu không có dữ liệu, khởi tạo selectedItems rỗng
-        }
-
-
+        selectedItems = new ArrayList<>(Collections.nCopies(this.images.size(), false));
     }
 
     @NonNull
@@ -58,6 +49,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
+        if (selectedItems.size() <= position) {
+            // Nếu selectedItems không đủ, thêm phần tử mới với giá trị mặc định (false)
+            selectedItems.add(false);
+        }
         Image image = images.get(position);
         Glide.with(holder.photoView.getContext())
                 .load(new File(image.getFilePath()))
@@ -78,9 +73,13 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             holder.itemView.getContext().startActivity(intent);
 
         });
+        holder.checkBox.setChecked(selectedItems.get(position));
+
         holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (selectedItems.size() > position) {
-                selectedItems.set(position, isChecked);
+                selectedItems.set(position, isChecked);  // Cập nhật trạng thái checkbox
+            } else {
+                Log.e("ImageAdapter", "Position out of bounds for selectedItems");
             }
         });
 
@@ -119,11 +118,21 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         List<Image> selectedImages = getSelectedImages();
         images.removeAll(selectedImages);
 
-        // Cập nhật lại danh sách selectedItems
         for (int i = 0; i < selectedItems.size(); i++) {
-            selectedItems.set(i, false);
+            if (images.size() < selectedItems.size()) {
+                selectedItems.remove(i);
+            } else {
+                selectedItems.set(i, false);
+            }
         }
-        notifyDataSetChanged();  // Đảm bảo RecyclerView được cập nhật
+        notifyDataSetChanged();
+    }
+
+    // Cập nhật danh sách ảnh
+    public void updateImages(List<Image> newImages) {
+        this.images = newImages != null ? newImages : new ArrayList<>();
+        this.selectedItems = new ArrayList<>(Collections.nCopies(this.images.size(), false));
+        notifyDataSetChanged();
     }
 
 

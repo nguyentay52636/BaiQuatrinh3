@@ -1,4 +1,4 @@
-package com.example.baitapquatrinh3;
+package com.example.baitapquatrinh3.ChildrenActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.baitapquatrinh3.Adapter.ReminderAdapter;
+import com.example.baitapquatrinh3.R;
 import com.example.baitapquatrinh3.models.Reminder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -30,7 +31,7 @@ public class ReminderListActivity extends AppCompatActivity {
         btnAddReminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ReminderListActivity.this,ReminderActivity.class);
+                Intent intent = new Intent(ReminderListActivity.this, ReminderActivity.class);
                 startActivity(intent);
             }
         });

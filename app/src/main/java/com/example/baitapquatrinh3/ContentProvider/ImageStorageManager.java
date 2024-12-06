@@ -1,4 +1,4 @@
-package com.example.baitapquatrinh3;
+package com.example.baitapquatrinh3.ContentProvider;
 //
 //import android.content.Context;
 //import android.util.Log;

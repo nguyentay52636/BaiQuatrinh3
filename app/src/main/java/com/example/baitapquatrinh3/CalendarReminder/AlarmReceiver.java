@@ -7,20 +7,28 @@ import android.content.Context;
 import android.content.Intent;
 import androidx.core.app.NotificationCompat;
 
+import com.example.baitapquatrinh3.Helper.NotificationHelper;
 import com.example.baitapquatrinh3.R;
-import com.example.baitapquatrinh3.ReminderActivity;
+import com.example.baitapquatrinh3.ChildrenActivity.ReminderActivity;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        // Tạo kênh thông báo
+        NotificationHelper.createNotificationChannel(context);
+
+        // Nội dung thông báo
         String reminderText = intent.getStringExtra("reminder_text");
 
-        // Tạo một Intent để mở ứng dụng khi người dùng nhấn vào thông báo
         Intent notificationIntent = new Intent(context, ReminderActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                context,
+                0,
+                notificationIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
 
-        // Tạo thông báo
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "reminder_channel")
                 .setSmallIcon(R.drawable.baseline_notifications_active_24)
                 .setContentTitle("Reminder")
@@ -30,9 +38,10 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 
-        // Hiển thị thông báo
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        notificationManager.notify(0, builder.build());
+        if (notificationManager != null) {
+            notificationManager.notify(0, builder.build());
+        }
     }
+
 }

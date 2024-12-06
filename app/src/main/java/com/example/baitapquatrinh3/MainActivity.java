@@ -1,7 +1,5 @@
 package com.example.baitapquatrinh3;
 import android.content.ContentValues;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,27 +10,24 @@ import android.content.Intent;
 import android.provider.MediaStore;
 import android.widget.FrameLayout;
 import android.widget.Toast;
-import android.view.LayoutInflater;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.baitapquatrinh3.Adapter.ImageAdapter;
+import com.example.baitapquatrinh3.ChildrenActivity.ReminderListActivity;
 import com.example.baitapquatrinh3.ContentProvider.ImageProvider;
+import com.example.baitapquatrinh3.Helper.MenuHandler;
 import com.example.baitapquatrinh3.models.Image;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         btnCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,ReminderListActivity.class);
+                Intent intent = new Intent(MainActivity.this, ReminderListActivity.class);
                 startActivity(intent);
             }
         });
@@ -81,9 +76,14 @@ public class MainActivity extends AppCompatActivity {
 //                    menuHandler.showDeleteConfirmationDialog();
                     List<Image> selectedImages = imageAdapter.getSelectedImages();
 
-                    if (!selectedImages.isEmpty()) {
+                    // Lưu lại số lượng ảnh đã chọn trước khi xóa
+                    int selectedCount = selectedImages.size();
+
+                    if (selectedCount > 0) {
                         imageAdapter.deleteSelectedImages();
-                        Toast.makeText(MainActivity.this, "Đã xóa " + selectedImages.size() + " ảnh", Toast.LENGTH_SHORT).show();
+
+                        // Hiển thị thông báo với số lượng ảnh đã xóa
+                        Toast.makeText(MainActivity.this, "Đã xóa " + selectedCount + " ảnh", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(MainActivity.this, "Chưa chọn ảnh nào!", Toast.LENGTH_SHORT).show();
                     }

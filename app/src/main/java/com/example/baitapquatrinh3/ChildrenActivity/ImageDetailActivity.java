@@ -1,4 +1,4 @@
-package com.example.baitapquatrinh3;
+package com.example.baitapquatrinh3.ChildrenActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.GestureDetector;
@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
+import com.example.baitapquatrinh3.R;
 import com.github.chrisbanes.photoview.PhotoView;
 
 import java.util.List;

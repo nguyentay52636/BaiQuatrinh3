@@ -8,7 +8,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import com.example.baitapquatrinh3.DatabaseHelper;
+import com.example.baitapquatrinh3.Helper.DatabaseHelper;
 import com.example.baitapquatrinh3.models.Image;
 
 import java.util.ArrayList;
