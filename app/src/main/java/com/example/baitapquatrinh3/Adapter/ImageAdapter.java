@@ -1,6 +1,7 @@
 package com.example.baitapquatrinh3.Adapter;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     private List<Image> images;
     private OnItemClickListener listener;
     private List<Boolean> selectedItems;
-    // Interface cho sự kiện click vào item
+
     public interface OnItemClickListener {
         void onItemClicked(Image image);
     }
@@ -42,7 +43,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         if (images != null && !images.isEmpty()) {
             selectedItems = new ArrayList<>(Collections.nCopies(images.size(), false));
         } else {
-            selectedItems = new ArrayList<>();
+            selectedItems = new ArrayList<>(); // Nếu không có dữ liệu, khởi tạo selectedItems rỗng
         }
 
 
@@ -58,26 +59,32 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         Image image = images.get(position);
-
-        // Sử dụng Glide để tải ảnh
         Glide.with(holder.photoView.getContext())
                 .load(new File(image.getFilePath()))
                 .into(holder.photoView);
-
-        // Hiển thị ngày giờ định dạng
         holder.textViewDate.setText(image.getFormattedDate());
         holder.textViewId.setText("ID: " + image.getId());
 
+        if (selectedItems.size() > position) {
+            holder.checkBox.setChecked(selectedItems.get(position));
+        }
 
         holder.itemView.setOnClickListener(v->  {
             Toast.makeText(holder.itemView.getContext(), "Bạn vừa chọn ảnh ID số: " + image.getId(), Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(holder.itemView.getContext(), ImageDetailActivity.class);
             intent.putExtra(ImageDetailActivity.EXTRA_IMAGE_PATH,image.getFilePath());
+//
             holder.itemView.getContext().startActivity(intent);
 
         });
-//
+        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (selectedItems.size() > position) {
+                selectedItems.set(position, isChecked);
+            }
+        });
+
+
     }
 
     @Override
@@ -108,5 +115,17 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         }
         return selectedImages;
     }
+    public void deleteSelectedImages() {
+        List<Image> selectedImages = getSelectedImages();
+        images.removeAll(selectedImages);
+
+        // Cập nhật lại danh sách selectedItems
+        for (int i = 0; i < selectedItems.size(); i++) {
+            selectedItems.set(i, false);
+        }
+        notifyDataSetChanged();  // Đảm bảo RecyclerView được cập nhật
+    }
+
+
 
 }

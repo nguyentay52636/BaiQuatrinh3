@@ -59,16 +59,28 @@
         </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabCalender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="17dp"
+            android:backgroundTint="@color/design_default_color_error"
+            android:contentDescription="Calender"
+            android:src="@drawable/baseline_edit_calendar_24"
+            android:tint="@color/white" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabCamera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_margin="16dp"
+            android:layout_margin="17dp"
             android:src="@drawable/baseline_camera_alt_24"
             android:contentDescription="Camera"
             android:tint="@color/white"
             android:backgroundTint="@color/blue" />
+
 
     </RelativeLayout>
 

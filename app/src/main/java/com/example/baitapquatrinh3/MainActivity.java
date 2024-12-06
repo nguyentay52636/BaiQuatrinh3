@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.content.Intent;
@@ -18,7 +17,6 @@ import android.view.LayoutInflater;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,9 +37,6 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     public static final int REQUEST_IMAGE_CAPTURE = 1;
-    public static final int VIEW_GALLERY = 1000010;
-    public static final int DELETE_SELECTED = 1000006;
-    public static final int DELETE_ALL = 1000007;
     private FloatingActionButton btnCamera;
     private RecyclerView recyclerView;
     private ArrayList<Image> imageList;
@@ -49,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageProvider imageProvider;
     private FrameLayout container;
     private MenuHandler menuHandler ;
+    private  FloatingActionButton btnCalendar ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +56,19 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         btnCamera = findViewById(R.id.fabCamera);
         recyclerView = findViewById(R.id.recyclerView);
+        btnCalendar  =   findViewById(R.id.fabCalender);
         imageList = new ArrayList<>();
         imageAdapter = new ImageAdapter(imageList, this::onImageItemClicked);
         recyclerView.setAdapter(imageAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         menuHandler.loadImagesFromProvider(getApplicationContext(),imageList);
+        btnCalendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,ReminderListActivity.class);
+                startActivity(intent);
+            }
+        });
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -73,7 +78,16 @@ public class MainActivity extends AppCompatActivity {
                     return true;
 
                 } else if (itemId == R.id.delete_selected) {
-                    menuHandler.showDeleteConfirmationDialog();
+//                    menuHandler.showDeleteConfirmationDialog();
+                    List<Image> selectedImages = imageAdapter.getSelectedImages();
+
+                    if (!selectedImages.isEmpty()) {
+                        imageAdapter.deleteSelectedImages();
+                        Toast.makeText(MainActivity.this, "Đã xóa " + selectedImages.size() + " ảnh", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Chưa chọn ảnh nào!", Toast.LENGTH_SHORT).show();
+                    }
+
                     return true;
                 } else if (itemId == R.id.delete_all) {
                     menuHandler.handleDeleteAll();
@@ -95,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 openCamera() ;
             }
         });
+
     }
     private void openCamera() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
