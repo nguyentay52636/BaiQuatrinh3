@@ -156,34 +156,34 @@ public class ImageProvider extends ContentProvider {
         }
         return imageList;
     }
-    public static List<Image> getImageList(Context context) {
-        List<Image> imageList = new ArrayList<>();
-
-        // Sử dụng ContentResolver để truy vấn dữ liệu
-        Cursor cursor = context.getContentResolver().query(
-                CONTENT_URI,  // URI của ContentProvider
-                null,         // Các cột cần lấy
-                null,         // Selection
-                null,         // Selection Args
-                null          // Sort Order
-        );
-
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                // Đọc dữ liệu từ Cursor
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID));
-                String filePath = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_IMAGE_PATH));
-                String formattedDate = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TIMESTAMP));
-
-                // Thêm vào danh sách
-                imageList.add(new Image(id, filePath, formattedDate));
-            } while (cursor.moveToNext());
-
-            cursor.close();
-        }
-
-        return imageList;
-    }
+//    public static List<Image> getImageList(Context context) {
+//        List<Image> imageList = new ArrayList<>();
+//
+//        // Sử dụng ContentResolver để truy vấn dữ liệu
+//        Cursor cursor = context.getContentResolver().query(
+//                CONTENT_URI,  // URI của ContentProvider
+//                null,         // Các cột cần lấy
+//                null,         // Selection
+//                null,         // Selection Args
+//                null          // Sort Order
+//        );
+//
+//        if (cursor != null && cursor.moveToFirst()) {
+//            do {
+//                // Đọc dữ liệu từ Cursor
+//                int id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID));
+//                String filePath = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_IMAGE_PATH));
+//                String formattedDate = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TIMESTAMP));
+//
+//                // Thêm vào danh sách
+//                imageList.add(new Image(id, filePath, formattedDate));
+//            } while (cursor.moveToNext());
+//
+//            cursor.close();
+//        }
+//
+//        return imageList;
+//    }
 
 }
 

@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.baitapquatrinh3.Adapter.ImageAdapter;
 import com.example.baitapquatrinh3.ContentProvider.ImageProvider;
+import com.example.baitapquatrinh3.MainActivity;
 import com.example.baitapquatrinh3.models.Image;
 
 import java.text.SimpleDateFormat;
@@ -37,42 +38,19 @@ public class MenuHandler {
         context.startActivity(intent);
         Toast.makeText(context, "Mở thư viện ảnh!", Toast.LENGTH_SHORT).show();
     }
-    public void handleDeleteSelected() {
-        try {
-            List<Image> selectedImages = imageAdapter.getSelectedImages();
-            if (selectedImages == null || selectedImages.isEmpty()) {
-                Toast.makeText(context, "Chưa chọn hình ảnh nào để xóa!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            for (Image image : selectedImages) {
-                try {
-                    int rowsDeleted = context.getContentResolver().delete(
-                            Uri.withAppendedPath(imageProvider.CONTENT_URI, String.valueOf(image.getId())),
-                            null,
-                            null
-                    );
-
-                    if (rowsDeleted == 0) {
-                        Toast.makeText(context, "Không thể xóa hình ảnh: " + image.getId(), Toast.LENGTH_SHORT).show();
-                    } else {
-                        imageList.remove(image);
-                    }
-                } catch (SecurityException e) {
-                    Toast.makeText(context, "Không có quyền xóa hình ảnh: " + image.getId(), Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    Toast.makeText(context, "Lỗi khi xóa hình ảnh: " + image.getId(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            imageAdapter.notifyDataSetChanged();
-            Toast.makeText(context, "Đã xóa các mục đã chọn!", Toast.LENGTH_SHORT).show();
-
-        } catch (Exception e) {
-            Toast.makeText(context, "Đã xảy ra lỗi trong quá trình xóa!", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-    }
+//    public void handleDeleteSelected() {
+//        List<Image> selectedImages = imageAdapter.getSelectedImages();
+//
+//        int selectedCount = selectedImages.size();
+//        if (selectedCount > 0) {
+//            imageAdapter.deleteSelectedImages();
+//            // Hiển thị thông báo với số lượng ảnh đã xóa
+//            Toast.makeText(context, "Đã xóa " + selectedCount + " ảnh", Toast.LENGTH_SHORT).show();
+//        } else {
+//            Toast.makeText(context, "Chưa chọn ảnh nào!", Toast.LENGTH_SHORT).show();
+//        }
+//
+//        }
 
     public void handleDeleteAll() {
         // Logic xóa tất cả
@@ -138,16 +116,7 @@ public void loadImagesFromProvider(Context context, ArrayList<Image> imageList) 
             return "Invalid Date";
         }
     }
-    public void showDeleteConfirmationDialog() {
-        new AlertDialog.Builder(this.context)
-                .setTitle("Xác nhận xóa")
-                .setMessage("Bạn có chắc chắn muốn xóa các hình ảnh đã chọn?")
-                .setPositiveButton("Có", (dialog, which) -> {
-                    handleDeleteSelected();
-                })
-                .setNegativeButton("Hủy", null)
-                .show();
-    }
+
     public static List<String> getImagePath(Context context, List<String> imageList) {
         Cursor cursor = context.getContentResolver().query(
                 ImageProvider.CONTENT_URI,

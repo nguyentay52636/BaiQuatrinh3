@@ -1,4 +1,5 @@
 package com.example.baitapquatrinh3;
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -73,20 +74,8 @@ public class MainActivity extends AppCompatActivity {
                     return true;
 
                 } else if (itemId == R.id.delete_selected) {
-//                    menuHandler.showDeleteConfirmationDialog();
-                    List<Image> selectedImages = imageAdapter.getSelectedImages();
-
-                    // Lưu lại số lượng ảnh đã chọn trước khi xóa
-                    int selectedCount = selectedImages.size();
-
-                    if (selectedCount > 0) {
-                        imageAdapter.deleteSelectedImages();
-
-                        // Hiển thị thông báo với số lượng ảnh đã xóa
-                        Toast.makeText(MainActivity.this, "Đã xóa " + selectedCount + " ảnh", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(MainActivity.this, "Chưa chọn ảnh nào!", Toast.LENGTH_SHORT).show();
-                    }
+//                    showDeleteConfirmationDialog();
+                    handleDeleteSelected();
 
                     return true;
                 } else if (itemId == R.id.delete_all) {
@@ -96,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
                     openCamera();
                     return true;
                 } else {
-
                     return false;
                 }
             }
@@ -181,9 +169,29 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+//    public void showDeleteConfirmationDialog() {
+//        new AlertDialog.Builder(MainActivity.this)
+//                .setTitle("Xác nhận xóa")
+//                .setMessage("Bạn có chắc chắn muốn xóa các hình ảnh đã chọn?")
+//                .setPositiveButton("Có", (dialog, which) -> {
+//                    handleDeleteSelected();
+//                })
+//                .setNegativeButton("Hủy", null)
+//                .show();
+//    }
 
+    public void handleDeleteSelected () {
+        List<Image> selectedImages = imageAdapter.getSelectedImages();
 
-
+        int selectedCount = selectedImages.size();
+        if (selectedCount > 0) {
+            imageAdapter.deleteSelectedImages();
+//            menuHandler.loadImagesFromProvider(getApplicationContext(),imageList);
+            Toast.makeText(MainActivity.this, "Đã xóa " + selectedCount + " ảnh", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(MainActivity.this, "Chưa chọn ảnh nào!", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
 
 
